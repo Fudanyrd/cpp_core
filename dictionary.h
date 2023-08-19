@@ -35,8 +35,10 @@ public:
     dictionary(){}
     dictionary(const dictionary<K,E>& dict):dataSet(dict.dataSet){}
     dictionary& operator=(const dictionary<K,E>& dict){
-	    if(&dict != this)
-        dataSet.clear(); dataSet = dict.dataSet; return *this;
+	    if(&dict != this){
+            dataSet = dict.dataSet;
+        }
+        return *this;
     }
     ~dictionary(){}
 
