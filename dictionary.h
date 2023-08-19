@@ -68,7 +68,7 @@ public:
     } 
     const E& operator[](const K& key)const{
         dictNode<K,E> tempNode(key);
-        dictNode<K,E>* res = binary_find(dataSet.begin(),dataSet.end(),tempNode);
+        const dictNode<K,E>* res = binary_find(dataSet.begin(),dataSet.end(),tempNode);
         if(res->key == key){
             return res->value;
         }
