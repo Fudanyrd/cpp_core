@@ -70,6 +70,7 @@ private:
 	void create(size_t n,const T& value);
 	template<typename _Iterator>
 	void create(_Iterator begin,_Iterator end){
+		if(begin==0){create(); return; }
 		data = alloc.allocate(end - begin);
 		avail = limit = std::uninitialized_copy(begin,end,this->data);
 	}
