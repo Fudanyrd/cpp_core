@@ -28,6 +28,7 @@ public:
 		}
 	}
 	Ptr& operator=(const Ptr<T>& pt){
+		//NOTING that class Ptr cannot copy itself properly.
 		if(--*ref_ptr == 0){
 			delete data; delete ref_ptr;
 		}
