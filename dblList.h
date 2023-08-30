@@ -45,8 +45,8 @@ struct dblList_iterator{
     }
 
     dblNode<T>* getAddress(void)const{ return this->ptr; }
-    bool operator==(dblList_iterator<T> iter){ return iter.ptr == this->ptr; }
-    bool operator!=(dblList_iterator<T> iter){ return iter.ptr != this->ptr; }
+    bool operator==(dblList_iterator<T> iter)const{ return iter.ptr == this->ptr; }
+    bool operator!=(dblList_iterator<T> iter)const{ return iter.ptr != this->ptr; }
 
     dblNode<T>* ptr;
 };
@@ -90,10 +90,10 @@ struct dblList_const_iterator{
 
     dblNode<T>* getAddress(void)const{ return ptr; }
 
-    bool operator==(dblList_iterator<T> iter){ return iter.ptr == this->ptr; }
-    bool operator==(dblList_const_iterator<T> iter){ return iter.ptr == this->ptr; }
-    bool operator!=(dblList_iterator<T> iter){ return iter.ptr != this->ptr; }
-    bool operator!=(dblList_const_iterator<T> iter){ return iter.ptr != this->ptr; }
+    bool operator==(dblList_iterator<T> iter)const{ return iter.ptr == this->ptr; }
+    bool operator==(dblList_const_iterator<T> iter)const{ return iter.ptr == this->ptr; }
+    bool operator!=(dblList_iterator<T> iter)const{ return iter.ptr != this->ptr; }
+    bool operator!=(dblList_const_iterator<T> iter)const{ return iter.ptr != this->ptr; }
 
     dblNode<T>* ptr;
 };
