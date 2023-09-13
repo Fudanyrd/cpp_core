@@ -62,6 +62,45 @@ public:
 	}
 	void insert(iterator,const T&);
 	bool empty(void)const{ return size() == 0;}	
+
+	static void sort(iterator b,iterator e){
+		if(e - b <= 1) return;
+		iterator key = b, begin = b, end = e;
+		
+		while(begin != end){
+			while(begin != end && *(--end) >= *key);
+			while(begin != end && *(++begin) <= *key);
+			Swap(*begin, *end);
+		}
+		
+		if(*key >= *begin){
+			Swap(*key, *begin);
+			sort(b, begin);
+			sort(begin + 1, e);
+		}
+		else{
+			sort(b + 1, e);
+		}
+	}
+
+	template <typename _Predicate>
+	static void sort(iterator b,iterator e, _Predicate __Pred){
+		if(e - b <= 1) return;
+		iterator key = b, begin = b, end = e;
+		
+		while(begin != end){
+			while(begin != end && !__Pred(*(--end),*key));
+			while(begin != end && !__Pred(*key, *(++begin)));
+			Swap(*begin, *end); 
+		}
+		
+		if(!__Pred(*key,*begin)){
+			Swap(*key,*begin);
+			sort(b,begin,__Pred);
+			sort(begin + 1, e, __Pred);
+		}
+		else sort(b + 1, e, __Pred);
+	}
 private:
 	iterator data, avail, limit;
 	std::allocator<T> alloc;
@@ -78,6 +117,10 @@ private:
 	void grow(void);
 	void unchecked_append(const T& value){
 		alloc.construct(avail++,value);
+	}
+
+	static void Swap(T& a, T& b){
+		T temp = a; a = b; b = temp;
 	}
 };
 
