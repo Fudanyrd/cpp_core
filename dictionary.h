@@ -66,13 +66,12 @@ public:
             return res->value;
         }
     } 
-    const E& operator[](const K& key)const{
+
+    const_iterator find(const K& key)const{
         dictNode<K,E> tempNode(key);
         const dictNode<K,E>* res = binary_find(dataSet.begin(),dataSet.end(),tempNode);
-        if(res->key == key){
-            return res->value;
-        }
-        throw std::domain_error("key is not in the set");
+        if(res->key == key) return res;
+        return dataSet.end();
     }
 private:
     set<dictNode<K,E> > dataSet;
