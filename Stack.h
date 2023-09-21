@@ -42,6 +42,7 @@ public:
 	
 	T& operator[](size_t i){ return data[i]; }
 	const T& operator[](size_t i)const{ return data[i]; }
+	T back() const { return *(avail - 1); }
 	
 	iterator begin(void){ return data; }
 	iterator end(void){ return avail; }
