@@ -12,6 +12,24 @@ private:
 public:
 	Queue(unsigned int max=64u):maxSize(max), first(0),length(0), elements(new T[maxSize]){}
 	~Queue(){ delete[] elements;}	
+	Queue(const Queue& q){
+		first = q.first; length = q.length;
+		maxSize = q.maxSize;
+		elements = new T[maxSize];
+		for(unsigned int i = 0;i!=length;++i){
+			elements[i] = q.operator[](i);
+		}
+	}
+	Queue& operator=(const Queue& q){
+		delete[] elements;
+		first = q.first; length = q.length;
+		maxSize = q.maxSize;
+		elements = new T[maxSize];
+		for(unsigned int i = 0;i!=length;++i){
+			elements[i] = q.operator[](i);
+		}
+	}
+
 	void enQueue(const T& value){
 		if(length==maxSize) throw std::domain_error("Queue::enQueue: queue is full");
 		elements[(first+length)%maxSize] = value;	
