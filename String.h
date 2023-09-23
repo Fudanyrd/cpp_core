@@ -73,6 +73,7 @@ public:
 		if(posP < lengthP) return -1; 
 		return posT - lengthP;
 	}
+	Vec<String> split(char sep=' ')const;
 	
 private:
     Vec<char> data;

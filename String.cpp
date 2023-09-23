@@ -1,6 +1,25 @@
 #include "Vec.h"
 #include "String.h"
 
+Vec<String> String::split(char sep)const{
+	size_t i = 0,j;
+	Vec<String> ret;
+	while(i!=size()){
+		while(this->operator[](i)==sep&&i!=size()){
+			++i;
+		}
+		j = i;
+		while(this->operator[](j)!=sep&&j!=size()){
+			++j;
+		}
+		if(i!=j){
+			ret.push_back(this->substr(i,j));
+		}
+		i = j;
+	}
+	return ret;
+}
+
 std::istream& operator>>(std::istream& is,String& str){
     char ch; 
     if(!str.empty()) str.clear(); 
