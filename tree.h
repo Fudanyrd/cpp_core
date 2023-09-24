@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Stack.h"
 #include "Vec.h"
 
 template <typename T>
@@ -24,6 +25,7 @@ public:
 
     T* operator->(){ return ptr; }
     const T* operator->()const{ return ptr; }
+    T* pointer_value()const{ return ptr;}
 private:
     T* ptr;
 };
@@ -51,10 +53,15 @@ public:
     void remove_branch(size_t i){
         children.remove(i);
     }
-    treeNode<T>& operator[](size_t i){
+    //NOTE that operator[-1] will return reference of itself
+    treeNode<T>& operator[](int i){
+        if(i==-1)
+            return *this;
         return *(children[i]);
     }
-    const treeNode<T>& operator[](size_t i)const{
+    const treeNode<T>& operator[](int i)const{
+        if(i==-1)
+            return *this;
         return *(children[i]);
     }
 };
@@ -82,11 +89,16 @@ public:
     tree(size_t sz){
         root->children = Vec<handle<treeNode<T> > >(sz);
     }
+    tree(const char* grid,const T* data);
 
-    treeNode<T>& operator[](size_t i){
+    treeNode<T>& operator[](int i){
+        if(i==-1)
+            return *root;
         return *((root->children)[i]);
     }
-    const treeNode<T>& operator[](size_t i)const{
+    const treeNode<T>& operator[](int i)const{
+        if(i==-1)
+            return *root;
         return *((root->children)[i]); 
     }
 
@@ -100,3 +112,49 @@ public:
 
     handle<treeNode<T> > root;
 };
+
+template <typename T>
+tree<T>::tree(const char* grid,const T* data){
+    //example: grid = "((())())", then it will construct a three-level tree:
+    //          a
+    //         / \\
+    //        a    a
+    //       /
+    //      a
+    int i = 0;
+    Stack<treeNode<T>* > path;
+    treeNode<T>* ref = root.pointer_value();
+
+    while(grid[i]!='\0'){
+        switch(grid[i]){
+            case '(':{
+                if(path.empty()){
+                    if(grid[i-1]=='a'){
+                        ref->value = *data; ++data;
+                    }
+                    path.push_back(ref);
+                    ++i;        continue;
+                }
+                //push_branch, and push into path(Stack).
+                path.push_back(ref);
+                ref->push_branch();
+                //if grid[i-1]=='a', input a value into it.
+                ref = (ref->children[ref->children.size()-1]).pointer_value();
+                if(grid[i-1]=='a'){
+                    ref->value = *data;      ++data;
+                }
+                break;    
+            }
+            case ')':{
+                //path should discard an element.
+                ref = path.back();
+                path.pop();
+                break;
+            }
+            default: break;
+        }
+        ++i;
+    }
+
+    return;
+}
