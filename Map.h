@@ -10,6 +10,7 @@ struct MapNode{
     E value;
     MapNode(){}
     MapNode(const K& k):key(k){}
+    MapNode(const MapNode<K,E>& node):key(node.key),value(node.value){}
 
     bool operator<(const MapNode<K,E>& node)const{ return key < node.key; }
     bool operator>(const MapNode<K,E>& node)const{ return key > node.key; }
@@ -46,10 +47,17 @@ public:
             return (it->data).second();
         }
     }
-    const_iterator find(const K& key){ return mapData.find(MapNode<K,E>(key)); }
+    const_iterator find(const K& key)const{ return mapData.find(MapNode<K,E>(key)); }
+    void remove(const K& key){ mapData.remove(MapNode<K,E>(key)); }
     template <typename _Iterator>
-    void copy(_Iterator it){
+    void copy(_Iterator it)const{
         mapData.copy(it);
+    }
+
+    Stack<BSNode<MapNode<K,E> >*> pointers(void)const{
+        Stack<BSNode<MapNode<K,E> >*> ptrs;
+        mapData.pointers(mapData.Root,ptrs);
+        return ptrs;
     }
 private:
     BSTree<MapNode<K,E> > mapData;

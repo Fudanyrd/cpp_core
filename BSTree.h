@@ -160,8 +160,14 @@ public:
 
 	void insert(const _T& value);
 	void remove(const _T& value);
-	BSNode<_T>* find(const _T& value);
+	BSNode<_T>* find(const _T& value)const;
 
+	void pointers(BSNode<_T>* root,Stack<BSNode<_T>*>& ptrs)const{
+		if(root==0) return;
+		this->pointers(root->left,ptrs);
+		ptrs.push_back(root);
+		this->pointers(root->right,ptrs);	
+	}	
 	BSNode<_T>* Root;
 private:
 	template<typename _Iterator>
@@ -357,7 +363,7 @@ void BSTree<_T>::remove(const _T& value){
 }
 
 template <typename _T>
-BSNode<_T>* BSTree<_T>::find(const _T& value){
+BSNode<_T>* BSTree<_T>::find(const _T& value)const{
 	BSNode<_T>* pt = Root;
 	while(pt != 0 && pt->data != value){
 		pt = value>pt->data ? pt->right : pt->left;
