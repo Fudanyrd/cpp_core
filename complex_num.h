@@ -7,7 +7,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <string>
+#include "String.h"
 
 #ifndef _GRAMMAR_
 bool not_minus(char c);
@@ -105,7 +105,7 @@ complex_num operator/(const complex_num& x, const complex_num& y);
 complex_num operator^(const complex_num& x, const complex_num& y);
 complex_num operator~(const complex_num& x);
 
-//convert a string into a complex number.
-complex_num converter(const std::string& input);
+//convert a String into a complex number.
+complex_num converter(const String& input);
 
 #endif//COMPLEX_NUM_H

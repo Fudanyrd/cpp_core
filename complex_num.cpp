@@ -1,7 +1,5 @@
 #include "complex_num.h"
 
-using std::string;
-
 bool not_minus(char c){
 	return !isspace(c) && c!='-';
 }
@@ -87,27 +85,27 @@ complex_num operator~(const complex_num& x){// get conjugate
 	return complex_num(x.real(),-x.imagery());
 }
 
-//convert a string into a complex number.
+//convert a String into a complex number.
 //NOTE: it must be of form a+bj or a-bj rather than bj+a or bj-a.
 //NOTE: use 1j or 1.0j instead of j.
-complex_num converter(const string& input){
-	string::const_iterator end = std::find(input.begin(),input.end(),'j');
+complex_num converter(const String& input){
+	String::const_iterator end = std::find(input.begin(),input.end(),'j');
 	if(end == input.end()) //input is not complex number.
 		return complex_num(atof(input.c_str()),0.0);
 	else{
-		string::const_iterator avail = std::find(input.begin(),end,'+');
+		String::const_iterator avail = std::find(input.begin(),end,'+');
 		if(avail == end){
 			avail = std::find_if(input.begin(),end,not_minus);
 			avail = std::find(avail,end,'-');
 			if(avail == end)
 				return complex_num(0.0,atof(input.c_str()));
 			else{
-				string temp1(input.begin(),avail), temp2(avail+1,end);
+				String temp1(input.begin(),avail), temp2(avail+1,end);
 				return complex_num(atof(temp1.c_str()),-atof(temp2.c_str()));
 			}
 		}
 		else{
-			string temp1(input.begin(),avail), temp2(avail+1,end);
+			String temp1(input.begin(),avail), temp2(avail+1,end);
 			return complex_num(atof(temp1.c_str()), atof(temp2.c_str()));
 		}
 	}
