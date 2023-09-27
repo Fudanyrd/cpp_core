@@ -73,6 +73,25 @@ public:
         if(res->key == key) return res;
         return dataSet.end();
     }
+
+    K* keys()const{
+        K* res = new K[size()];
+        for(size_t i=0;i!=size();++i){
+            res[i]=dataSet[i].key;
+        }
+        return res;
+    }
+    E* values()const{
+        E* res = new E[size()];
+        for(size_t i=0;i!=size();++i){
+            res[i]=dataSet[i].value;
+        }
+        return res;
+    }
+
+    void remove_key(const K& k){
+        dataSet.remove(k);
+    }
 private:
     set<dictNode<K,E> > dataSet;
 };

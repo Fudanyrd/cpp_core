@@ -70,6 +70,10 @@ you can use key as index to quickly locate location and extract its value.
 
 size() can help you get its size.
 
+remove_key(): remove a key-value pair in it.
+
+keys(), values(): get an array of its keys, values.(you need to remember to deallocate these memory)
+
 ## gen_list.h
 
 **Not Yet Implemented**
@@ -99,6 +103,12 @@ get(matrixIndex), revalue(matrixIndex, value) can help you get a value in the ma
 transposed(): get a **new** matrix which is the transpose of the original one.
 
 operator+(matrix,matrix): get the sum of two matrix(generate a new one)
+
+## polynominal.hpp
+
+**Dependencies**: [dictionary.h](#dictionary.h), [set.h](#set.h)
+
+support + operation.
 
 ## Ptr.h
 

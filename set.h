@@ -77,6 +77,10 @@ public:
     }
 
     void clear(void){ uncreate(); }
+    void remove(const T& val){\
+        T* iter = binary_find<T*,T>(data,avail,val);
+        if(*iter==val) erase(iter);
+    }
 
 private:
     T* data, *avail, *limit;
@@ -120,6 +124,14 @@ private:
         avail = new_data + new_size/2;
         limit = new_data + new_size;
         return; 
+    }
+
+    void erase(T* iter){
+        T *j=iter, *end = avail-1;
+    	for(j = iter;j!= end; ++j){
+    		*j= *(j+1);
+    	}
+    	--avail;
     }
 };
 
