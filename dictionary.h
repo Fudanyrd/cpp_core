@@ -70,7 +70,7 @@ public:
     const_iterator find(const K& key)const{
         dictNode<K,E> tempNode(key);
         const dictNode<K,E>* res = binary_find(dataSet.begin(),dataSet.end(),tempNode);
-        if(res->key == key) return res;
+        if(res!=dataSet.end()&&res->key == key) return res;
         return dataSet.end();
     }
 
