@@ -1,3 +1,10 @@
+#pragma once
+#ifndef GEN_LIST_H
+#define GEN_LIST_H
+
+#include "dictionary.h"
+#include "Stack.h"
+#include <cctype>
 #include "Vec.h"
 #include <iostream>
 #include <stdexcept>
@@ -93,8 +100,12 @@ public:
         return temp;
     }
 
-    gen_list_node& operator[](size_t i){ return *(next[i]);}
+    gen_list_node& operator[](size_t i){
+        if(i>=next.size()) return *this;
+        return *(next[i]);
+    }
     const gen_list_node& operator[](size_t i)const{
+        if(i>=next.size()) return *this;
         return *(next[i]);
     }
 
@@ -125,9 +136,18 @@ public:
 
     gen_list():head(new gen_list_node<T>()){}
     gen_list(const T& val):head(new gen_list_node<T>(val)){}
+    gen_list(const char* grid,const T* values);
 
-    gen_list_node<T>& operator[](size_t i){ return *((head->next)[i]); }
-    const node& operator[](size_t i)const{ return *((head->next)[i]); }
+    gen_list_node<T>& operator[](size_t i){ 
+        if(i>=head->next.size()) return *head;
+        return *((head->next)[i]); 
+    }
+
+    //-1 can be used to refer to itself.
+    const node& operator[](size_t i)const{ 
+        if(i>=head->next.size()) return *head;
+        return *((head->next)[i]); 
+    }
     void clone(void){
         head.make_unique(); 
     }
@@ -140,3 +160,49 @@ std::ostream& operator<<(std::ostream& os,const gen_list<T>& lst){
     os << *(lst.head);
     return os;
 }
+
+template <typename T>
+gen_list<T>::gen_list(const char* grid, const T* values){
+    Stack<gen_list_handle<gen_list_node<T> > > path;
+    head = new gen_list_node<T>(*(values++)); 
+    dictionary<char,gen_list_handle<gen_list_node<T> > > headers;
+
+    gen_list_handle<gen_list_node<T> > ref = head;
+
+    int i = 0;
+    while(grid[i]!='\0'){
+        switch(grid[i]){
+            case '(':{
+                if(path.empty()){
+                    headers[grid[i-1]] = ref;
+                    path.push_back(ref); ++i;
+                    continue;
+                }
+                else {
+                    if (isalpha(grid[i - 1]) && headers.find(grid[i - 1]) != headers.end()) {
+                        ref->next.push_back(headers[grid[i - 1]]);
+                        ++i;
+                    }
+                    else {
+                        path.push_back(ref);
+                        ref->add_item(*(values++));
+                        ref = (ref->next)[ref->next.size() - 1u];
+                        if (isalpha(grid[i - 1])) headers[grid[i - 1]] = ref;
+                    }
+                }
+                break;
+            }
+            case ')':{
+                ref = path.back();
+                path.pop();
+                break;
+            }
+            
+            default: break;
+        }
+        ++i;
+    }
+    return;
+}
+
+#endif//GEN_LIST_H
