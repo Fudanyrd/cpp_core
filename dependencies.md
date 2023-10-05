@@ -78,6 +78,14 @@ keys(), values(): get an array of its keys, values.(you need to remember to deal
 
 **Not Yet Implemented**
 
+## heap.h
+
+**Dependencies** None
+
+A realization of priority queue.
+
+Always guarantee that the element with minimum key is at the front.
+
 ## Map.h
 
 **Dependencies** [BSTree.h](#BSTree.h),[Stack.h](#Stack.h)
