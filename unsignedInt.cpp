@@ -9,52 +9,70 @@ unsignedInt::unsignedInt(unsigned int x){
     return;
 }
 
-unsignedInt multipleByTenTimes(const unsignedInt& r,size_t zeros = 1u){
-    String res;
-    for(size_t i = 0;i!=zeros;++i)
-        res.push_back('0');
-    for(size_t i=0;i!=r.size();++i)
-        res.push_back(r[i]);
-    return unsignedInt(res);
-}
-unsignedInt multipleByXTimes(const unsignedInt& r,unsigned int x){
-    if(x > 9u){
-        throw std::domain_error("x out of range");
-    }
-    String res;
-    int left = 0;
-    for(size_t i = 0;i!= r.size();++i){
-       res.push_back('0'+(left+(x*(r[i]-'0')))%10); 
-       left = (left+(x*(r[i]-'0')))/10;
-    }
-    if(left>0)
-        res.push_back(left+'0');
-    
-    return unsignedInt(res);
-}
-
 unsignedInt operator+(const unsignedInt& r1, const unsignedInt& r2){
-    size_t maxSize = r1.size() >r2.size()?r1.size():r2.size();
-    String res;
-    int left = 0;
-
-    for(size_t i = 0;i!=maxSize;++i){
-        res.push_back((left+(r1[i]-'0')+(r2[i]-'0'))%10 + '0');
-        left = (left+(r1[i]-'0')+(r2[i]-'0'))/10;
-    }
-    if(left==1) res.push_back('1');
-
-    return unsignedInt(res);
+    unsignedInt temp=r1;
+    temp+=r2;
+    return temp;
 }
-unsignedInt operator*(const unsignedInt& r1,const unsignedInt& r2){
-    unsignedInt res, temp;
-    for(size_t i = 0;i!=r2.size();++i){
-        if(r2[i]=='0') continue;
-        temp = multipleByTenTimes(r1,i);
-        temp = multipleByXTimes(temp,r2[i]-'0');
-        res = res + temp;
+String unsignedInt::multiply(String num1, String num2)const{
+    if (num1 == "0" || num2 == "0") return "0";
+    String res;
+    int left;
+    int* aux = new int[num1.size() + num2.size()]{ 0 };
+
+    for (size_t i = 0; i != num1.size(); ++i) {
+        for (size_t j = 0; j != num2.size(); ++j) {
+            aux[i + j] += (num1[i] - '0') * (num2[j] - '0');
+        }
     }
+    for (size_t i = 0; i != num1.size() + num2.size()-1; ++i) {
+        if (aux[i] > 9) {
+            left = aux[i] / 10;
+            aux[i] = aux[i] % 10;
+            aux[i + 1] += left;
+        }
+    }
+
+    size_t End = aux[num1.size() + num2.size() - 1] != 0 ? num1.size() + num2.size() - 1 :
+        num1.size() + num2.size() - 2;
+
+    for (size_t i=0;i!=End+1;++i) {
+        res.push_back(aux[i] + '0');
+    }
+    delete[] aux;
     return res;
+}
+
+unsignedInt operator*(const unsignedInt& r1,const unsignedInt& r2){
+    unsignedInt temp=r1;
+    temp*=r2;
+    return temp; 
+}
+
+void unsignedInt::sum(String& l,const String& r,size_t offset)const{
+    String res;
+    size_t i=offset;   //record the offset of String l.
+    size_t j=0;
+    int current, left=0;
+    while(i<l.size()&&j<r.size()){
+    	current=left+(l[i]-'0')+(r[j]-'0');
+    	left=current/10;
+    	l[i]=current%10+'0';
+    	++i; ++j;
+	}
+	while(i<l.size()){
+		current=left+(l[i]-'0');
+       	left=current/10;
+       	l[i]=current%10+'0';
+       	++i;
+	}
+	while(j<r.size()){
+		current=left+(r[j]-'0');
+       	left=current/10;
+       	l.push_back(current%10+'0');
+		++j;
+	}
+	if(left!=0) l.push_back(left+'0');
 }
 
 std::ostream& operator<<(std::ostream& os,const unsignedInt& r){

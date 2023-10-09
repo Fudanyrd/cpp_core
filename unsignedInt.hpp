@@ -24,12 +24,21 @@ public:
 
     char operator[](size_t i)const{ return i>=data.size()? '0':data[i];  }
     size_t size(void)const{ return data.size(); }
+
+    String multiply(String num1,String num2)const;
+    void sum(String& l,const String& r,size_t offset=0u)const;
+    unsignedInt& operator*=(const unsignedInt& i){
+        this->data = multiply(this->data,i.data);
+        return *this;
+    }
+    unsignedInt& operator+=(const unsignedInt& i){
+        sum(this->data,i.data);
+        return *this;
+    }
 private:
     String data;    
 };
 
-unsignedInt multipleByTenTimes(const unsignedInt& r);
-unsignedInt multipleByXTimes(const unsignedInt& r,unsigned int x);
 unsignedInt operator+(const unsignedInt& r1, const unsignedInt& r2);
 unsignedInt operator*(const unsignedInt& r1,const unsignedInt& r2);
 
