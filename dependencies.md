@@ -1,5 +1,9 @@
 ## Now I may go into details on how to use these template classes.
 
+### BTree.h
+
+Not completed.
+
 ### BSTree.h
 
 **Dependencies**: [Stack.h](#Stack.h)
@@ -163,6 +167,10 @@ back(): its last element.
 similar to that in the STL.
 
 use c_str() method to convert it into a char*.
+
+## Thread.h
+
+Not completed.
 
 ## tree.h
 
