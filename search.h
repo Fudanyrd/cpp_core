@@ -11,7 +11,7 @@ int* mode(_Iterator b,_Iterator e){
 	int *next = new int[e-b];
 	
 	int j = 0, k= -1;
-	next[j++] = k;
+	next[j] = k;
 	while(j!=e-b){
 		if(k==-1||b[j]==b[k]){
 			++k; ++j; next[j] = k;
