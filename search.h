@@ -38,7 +38,7 @@ _Iterator1 grep(_Iterator1 b, _Iterator1 e,_Iterator2 Pb,_Iterator2 Pe){
 	}
 		
 	delete[] next;
-	return aux1==Pe? aux1: aux1-(Pe-Pb);
+	return aux2!=Pe? aux1: aux1-(Pe-Pb);
 }
 
 template <typename _Iterator,typename _T>
