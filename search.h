@@ -11,7 +11,7 @@ int* mode(_Iterator b,_Iterator e){
 	int *next = new int[e-b];
 	
 	int j = 0, k= -1;
-	next[j++] = k;
+	next[j] = k;
 	while(j!=e-b){
 		if(k==-1||b[j]==b[k]){
 			++k; ++j; next[j] = k;
@@ -38,7 +38,7 @@ _Iterator1 grep(_Iterator1 b, _Iterator1 e,_Iterator2 Pb,_Iterator2 Pe){
 	}
 		
 	delete[] next;
-	return aux1==Pe? aux1: aux1-(Pe-Pb);
+	return aux2!=Pe? aux1: aux1-(Pe-Pb);
 }
 
 template <typename _Iterator,typename _T>
