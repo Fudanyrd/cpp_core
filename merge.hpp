@@ -3,6 +3,16 @@
 #ifndef MERGE_HPP
 #define MERGE_HPP
 
+/*
+    It is a implement of merge sort.
+    If you want to define your own comparator, it is suggested that
+    _Predicate was something like this:
+
+    int compare(Object o1,Object o2){
+        return o1.attibute - o2.attribute;
+    }
+*/
+
 template <typename T>
 void mergeSort(T* begin, T* end){
     if(end<=begin+1) return;

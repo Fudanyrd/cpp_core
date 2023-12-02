@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <ios>
 #include <cstddef>
+#include "merge.hpp"
 
 template <typename T>
 struct dblNode{
@@ -215,6 +216,49 @@ public:
     void sort(void){dblList_sort(begin(),end());}
     template <typename _Predicate>
     void sort(_Predicate __Pred){dblList_sort(begin(),end(),__Pred);}
+
+    size_type distance(iterator begin, iterator end){
+        size_t count = 0;
+        while(begin!=end){
+            count++; ++begin;
+        }
+        return count;
+    }
+    size_type distance(const_iterator begin,const_iterator end)const{
+        size_t count = 0;
+        while(begin!=end){
+            ++count; ++begin;
+        }
+        return count;
+    }
+    T* toArray(iterator begin,iterator end){
+        T* dat = new T[distance(begin,end)];
+        int i=0;
+        while(begin!=end){
+            dat[i++] = *begin; ++begin;
+        }
+        return dat;
+    }
+    void stable_sort(iterator begin,iterator end){
+        T* dat = toArray(begin,end);
+        int n = distance(begin,end);
+        mergeSort(dat,dat+n);
+        for(int i=0;begin!=end;++begin){
+            *begin = dat[i++];
+        }
+        delete[] dat;
+        return;
+    }
+    template <typename _Predicate>
+    void stable_sort(iterator begin,iterator end,_Predicate __Pred){
+        T* dat = toArray(begin,end);
+        int n = distance(begin,end);
+        mergeSort(dat,dat+n,__Pred);
+        for(int i=0;begin!=end;++begin){
+            *begin = dat[i++];
+        }
+        delete[] dat; return;
+    }
     
 private:
     dblNode<T> *head, *tail;
