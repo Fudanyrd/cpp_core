@@ -1,5 +1,6 @@
 #include "bytes.hpp"
 using std::istream;		using std::ostream;
+using std::endl;
 
 typedef unsigned char uchar;
 //float related.
@@ -32,7 +33,9 @@ uchar* intToBytes(const int& _X){
 
 double bytesToDouble(unsigned char* bs){
 	double output;
-	for(int i=0;i!=DOUBLE_LENGTH;++i) *((unsigned char*)(&output) + i) = bs[i];
+	for(int i=0;i!=DOUBLE_LENGTH;++i){      
+		*((unsigned char*)(&output) + i) = bs[i];
+	}
 	return output;
 }
 unsigned char* doubleToBytes(const double& _X){
@@ -59,8 +62,15 @@ unsigned char* longDoubleToBytes(const long double& _X){
 unsigned char* read_bytes(istream& in,int bytes,int offset){
 	uchar* res = new uchar[bytes];
 	uchar ch;
-	for(int i=0;i!=offset;++i) in >> ch;
-	for(int i=0;i!=bytes;++i) in >> res[i];
+	//a very typical bad implementation.
+//	for(int i=0;i!=offset;++i) in >> ch;
+	//for(int i=0;i!=bytes;++i) in >> res[i];
+	for(int i=0;i!=offset;++i){
+		ch = in.get();
+	}
+	for(int i=0;i!=bytes;++i){
+		res[i] = in.get(); //you should also do like this.
+	}
 	return res;
 }
 
