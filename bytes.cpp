@@ -5,9 +5,8 @@ using std::endl;
 typedef unsigned char uchar;
 //float related.
 float bytesToFloat(unsigned char* bs){
-	float output;
-	for(int i=0;i!=FLOAT_LENGTH;++i) *((unsigned char*)(&output) + i) = bs[i];
-	return output;
+	//this 'faster' method may be problematic
+	return *((float*)bs);
 }
 uchar* floatToBytes(const float& _X){
 	unsigned char* res = new uchar[FLOAT_LENGTH];
@@ -19,9 +18,7 @@ uchar* floatToBytes(const float& _X){
 
 //int related
 int bytesToInt(unsigned char* bs){
-	int output;
-	for(int i=0;i!=INT_LENGTH;++i) *((unsigned char*)(&output) + i) = bs[i];
-	return output;
+	return *((int*)bs);
 }
 uchar* intToBytes(const int& _X){
 	unsigned char* res = new uchar[INT_LENGTH];
@@ -32,11 +29,7 @@ uchar* intToBytes(const int& _X){
 }
 
 double bytesToDouble(unsigned char* bs){
-	double output;
-	for(int i=0;i!=DOUBLE_LENGTH;++i){      
-		*((unsigned char*)(&output) + i) = bs[i];
-	}
-	return output;
+	return *((double*)bs);
 }
 unsigned char* doubleToBytes(const double& _X){
 	uchar* res = new uchar[DOUBLE_LENGTH];
@@ -47,9 +40,7 @@ unsigned char* doubleToBytes(const double& _X){
 }
 
 long double bytesToLongDouble(unsigned char* bs){
-	long double output;
-	for(int i=0;i!=LONG_DOUBLE_LENGTH;++i) *((unsigned char*)(&output) + i) = bs[i];
-	return output;
+	return *((long double*)bs);
 }
 unsigned char* longDoubleToBytes(const long double& _X){
 	uchar* res = new uchar[LONG_DOUBLE_LENGTH];
